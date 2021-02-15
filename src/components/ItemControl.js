@@ -147,7 +147,7 @@ class ItemControl extends React.Component {
 		return (
 			<>
 			{currentlyVisibleState}
-			<button onClick={this.handleClick}>{buttonText}</button>
+			<button className= 'btn btn-info' onClick={this.handleClick}>{buttonText}</button>
 			</>
 		)
 	}

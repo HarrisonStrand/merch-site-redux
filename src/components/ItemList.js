@@ -17,10 +17,11 @@ function ItemList(props) {
 
 	return (
 		<>
-			<button onClick={() => props.changeFilterType('SHIRT') }>Shirts</button>
-			<button onClick={() => props.changeFilterType('POSTER') }>Posters</button>
-			<button onClick={() => props.changeFilterType('VINYL') }>Vinyl</button>
-			<button onClick={() => props.changeFilterType('ALL') }>See All Items</button>
+			<div className = "itemList">
+			<button className= 'btn btn-info' onClick={() => props.changeFilterType('SHIRT') }>Shirts</button>
+			<button className= 'btn btn-info' onClick={() => props.changeFilterType('POSTER') }>Posters</button>
+			<button className= 'btn btn-info' onClick={() => props.changeFilterType('VINYL') }>Vinyl</button>
+			<button className= 'btn btn-info' onClick={() => props.changeFilterType('ALL') }>See All Items</button>
 			<hr/>
 			{Object.values(itemArr).map((item) =>
 				<Item
@@ -32,6 +33,7 @@ function ItemList(props) {
 					id={item.id}
 					key = {item.id} />
 					)}
+					</div>
 		</>
 	);
 }

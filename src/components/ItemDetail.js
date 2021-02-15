@@ -11,9 +11,9 @@ function ItemDetail(props){
 			<p>{item.name}</p>
 			<p>{item.description}</p>
 			<p>{item.quantity}</p>
-			<button onClick={()=> onClickingPurchase() }>Purchase</button>
-			<button onClick={ props.onClickingEdit }>Update Item</button>
-			<button onClick={()=> onClickingDelete(item.id) }>Delete</button> 
+			<button className= 'btn btn-info' onClick={()=> onClickingPurchase() }>Purchase</button>
+			<button className= 'btn btn-info' onClick={ props.onClickingEdit }>Update Item</button>
+			<button className= 'btn btn-info' onClick={()=> onClickingDelete(item.id) }>Delete</button> 
     </React.Fragment>
   );
 }

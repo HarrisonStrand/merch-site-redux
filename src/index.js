@@ -10,6 +10,7 @@ import { createStore } from 'redux';
 // Provider component will give all child components access to the connect() function which is needed to connect to the Redux store
 import { Provider } from 'react-redux';
 import rootReducer from './reducers/index';
+import 'bootstrap/dist/css/bootstrap.css';
 
 // instantiating the store and passing in reducer
 // store constant is a redux store that knows how to handle the actions that are defined in our reducer
