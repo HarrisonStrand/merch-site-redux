@@ -6,13 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 // access to redux store and reducer in entry point file
 import { createStore } from 'redux';
-import reducer from './reducers/item-list-reducer';
+// import reducer from './reducers/item-list-reducer';
 // Provider component will give all child components access to the connect() function which is needed to connect to the Redux store
 import { Provider } from 'react-redux';
+import rootReducer from './reducers/index';
 
 // instantiating the store and passing in reducer
 // store constant is a redux store that knows how to handle the actions that are defined in our reducer
-const store = createStore(reducer);
+const store = createStore(rootReducer);
 
 //confirms that our updated method in ItemControl is functioning
 // we dont normally use subscribe or getState in production but it's great for testing.

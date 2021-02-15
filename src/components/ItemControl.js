@@ -14,9 +14,9 @@ class ItemControl extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			formVisibleOnPage: false,
 			selectedItem: null,
-			editing: false
+			editing: false,
+			filterType: "SHIRT"
 		};
 	}
 
@@ -38,7 +38,10 @@ class ItemControl extends React.Component {
 			id: id
     }
     dispatch(action);
-    this.setState({formVisibleOnPage: false});
+		const action2 = {
+			type: 'TOGGLE_FORM'
+		}
+		dispatch(action2);
   }
 
 	handleChangingSelectedItem = (id) => {
@@ -80,29 +83,34 @@ class ItemControl extends React.Component {
 		});
 	}
 
+	handleFilterChange = (type) => {
+		this.setState({
+			filterType: type
+		})
+	}
+
 	handlePurchasingItemInList = () => {
 		const selectedItem = this.state.selectedItem; // selects Item that is currently selected and viewed in the details page
 		const newQuantity = Object.assign({}, selectedItem, {quantity: selectedItem.quantity - 1}); // targets the selectedItem and its quantity, and assigns it the new quantity
-		const newItemList = this.state.masterItemList
-			.filter(item => item.id !== this.state.selectedItem.id)
-			.concat(newQuantity); // updates the Item list
-		this.setState({ 
-				masterItemList: newItemList,
-				selectedItem: newQuantity
-		});
+		this.handleEditingItemInList(newQuantity);
+		// keeps you on the same details page 
+		// this.setState({
+		// 	selectedItem: newQuantity
+		// });
 }
 
 	handleClick = () => {
-			if (this.state.selectedItem != null) {
-				this.setState({
-					formVisibleOnPage: false,
-					selectedItem: null,
-					editing: false
-				});
-			} else {
-					this.setState(prevState => ({
-				formVisibleOnPage: !prevState.formVisibleOnPage
-			}));
+		if (this.state.selectedItem != null) {
+			this.setState({
+				selectedItem: null,
+				editing: false
+			});
+		} else {
+			const { dispatch } = this.props;
+			const action= {
+				type: 'TOGGLE_FORM'
+			}
+			dispatch(action);
 		}
 	}
 
@@ -123,7 +131,7 @@ class ItemControl extends React.Component {
 				onClickingEdit = {this.handleEditClick} 
 				onClickingPurchase = {this.handlePurchasingItemInList}/>
 				buttonText = "Return to Item List";
-		} else if (this.state.formVisibleOnPage) {
+		} else if (this.props.formVisibleOnPage) {
 				currentlyVisibleState = <NewItemForm 
 				onNewItemCreation = {this.handleAddingNewItemToList}
 				onEditItem = {this.handleEditingItemInList}/>
@@ -131,7 +139,9 @@ class ItemControl extends React.Component {
     } else {
 				currentlyVisibleState = <ItemList 
 				itemList = {this.props.masterItemList}
-				onItemSelection={this.handleChangingSelectedItem}/>;
+				onItemSelection={this.handleChangingSelectedItem}
+				filterVar={this.state.filterType}
+				changeFilterType={this.handleFilterChange}/>;
 				buttonText = "Add Item";
     }
 		return (
@@ -144,7 +154,8 @@ class ItemControl extends React.Component {
 }
 
 ItemControl.propTypes = {
-	masterItemList: PropTypes.object
+	masterItemList: PropTypes.object,
+	formVisibleOnPage: PropTypes.bool
 }
 
 // we define how the mapStateToProps function should look
@@ -152,7 +163,8 @@ ItemControl.propTypes = {
 const mapStateToProps = state => {
 	return {
 		// Key-value pairs of state to be mapped from Redux to React component go here.
-		masterItemList: state
+		masterItemList: state.masterItemList,
+		formVisibleOnPage: state.formVisibleOnPage
 	}
 }
 // Then we need to pass our newly-defined mapStateToProps function into the connect() function:
